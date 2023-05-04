@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import { appendErrors, FieldValues, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 interface FormData {
     description: string;
@@ -88,7 +88,33 @@ const Form = () => {
                     </select>
                 </div>
             </form>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <>
+                        {expenses.map(expense => {
+                            return (
+                                <tr>
+                                    <th>{expense.description}</th>
+                                    <th>${expense.amount}</th>
+                                    <th>{expense.category}</th>
+                                    <th>
+                                        <button className="btn btn-danger">DELETE</button>
+                                    </th>
+                                </tr>
+                            )
+                        })}
+                    </>
 
+                </tbody>
+            </table>
         </>
 
     )
