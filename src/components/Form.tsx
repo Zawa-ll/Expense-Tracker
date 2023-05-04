@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import { appendErrors, FieldValues, useForm } from 'react-hook-form'
 
@@ -9,7 +9,10 @@ interface FormData {
 }
 
 const Form = () => {
+    const [categories, setCategories] = useState(["All Categories", "Groceries", "Utilities", "Entertainment"]);
+
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+
     console.log(errors)
 
     const onSubmit = (data: FieldValues) => console.log(data);
@@ -54,16 +57,15 @@ const Form = () => {
             </div>
 
             <div className="mb-3">
-                <label htmlFor="category" className='form-label'>Catrgory</label>
+                <label htmlFor="category" className='form-label'>All Catrgory</label>
                 <select
                     {...register('category')}
                     id='category' className='form-control'
                 >
-                    <option value="milk">Milk</option>
-                    <option value="option2">Option2</option>
-                    <option value="option3">Option3</option>
+                    {categories.map(category => <option>{category}</option>)}
                 </select>
             </div>
+
 
             <button className="btn btn-primary" type="submit">Submit</button>
 
