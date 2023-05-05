@@ -12,6 +12,7 @@ const Form = () => {
     const [categories, setCategories] = useState(["All Categories", "Groceries", "Utilities", "Entertainment"]);
     const [expenses, setExpenses] = useState([
         {
+            id: 1,
             description: 'milk',
             amount: '100',
             category: 'Groceries'
@@ -22,9 +23,15 @@ const Form = () => {
 
 
     const onSubmit = (data) => {
-        const expense = data;
+        if (data.category === 'All Categories') return;
+        const expense = { ...data, id: expenses.length + 1 };
         setExpenses([...expenses, expense]);
     };
+
+    const handleDelete = function (category) {
+        const deletedVersion = expenses.filter(c => c.id !== category.id);
+        setExpenses(deletedVersion);
+    }
 
     // const [person, setPerson] = useState({
     //     description: "",
@@ -91,6 +98,7 @@ const Form = () => {
             <table className="table">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Description</th>
                         <th>Amount</th>
                         <th>Category</th>
@@ -101,12 +109,13 @@ const Form = () => {
                     <>
                         {expenses.map(expense => {
                             return (
-                                <tr>
+                                <tr key={expense.id}>
+                                    <th>{expense.id}</th>
                                     <th>{expense.description}</th>
                                     <th>${expense.amount}</th>
                                     <th>{expense.category}</th>
                                     <th>
-                                        <button className="btn btn-danger">DELETE</button>
+                                        <button onClick={() => handleDelete(expense)} className="btn btn-danger">DELETE</button>
                                     </th>
                                 </tr>
                             )
