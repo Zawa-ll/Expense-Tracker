@@ -70,10 +70,7 @@ const Form = () => {
                     <label htmlFor="amount" className="form-label">Amount</label>
                     <input
                         {...register('amount')}
-                        // value={person.amount}
-                        // onChange={(event) => {
-                        //     setPerson({ ...person, amount: event.target.value })
-                        // }}
+
                         id="amount" type="text" className="form-control" />
                 </div>
 
