@@ -6,10 +6,12 @@ interface FormData {
     description: string;
     amount: string;
     category;
+    filter;
 }
 
 const Form = () => {
     const [categories, setCategories] = useState(["All Categories", "Groceries", "Utilities", "Entertainment"]);
+    const [filter, setFilter] = useState("All Categories");
     const [expenses, setExpenses] = useState([
         {
             id: 1,
@@ -26,6 +28,8 @@ const Form = () => {
         if (data.category === 'All Categories') return;
         const expense = { ...data, id: expenses.length + 1 };
         setExpenses([...expenses, expense]);
+        console.log(filter);
+        // where output 
     };
 
     const handleDelete = function (category) {
@@ -89,6 +93,8 @@ const Form = () => {
                 <div className='mb-3'>
                     <label htmlFor='filter' className='form-label'></label>
                     <select
+                        onChange={event => setFilter(event.target.value)}
+                        // {...register('filter')}
                         id='filter' className='form-control'
                     >
                         {categories.map(category => <option >{category}</option>)}
@@ -107,21 +113,48 @@ const Form = () => {
                 </thead>
                 <tbody>
                     <>
-                        {expenses.map(expense => {
-                            return (
-                                <tr key={expense.id}>
-                                    <th>{expense.id}</th>
-                                    <th>{expense.description}</th>
-                                    <th>${expense.amount}</th>
-                                    <th>{expense.category}</th>
-                                    <th>
-                                        <button onClick={() => handleDelete(expense)} className="btn btn-danger">DELETE</button>
-                                    </th>
-                                </tr>
-                            )
-                        })}
+                        {filter === 'All Categories' ?
+                            expenses.map(expense => {
+                                return (
+                                    <tr key={expense.id}>
+                                        <th>{expense.id}</th>
+                                        <th>{expense.description}</th>
+                                        <th>${expense.amount}</th>
+                                        <th>{expense.category}</th>
+                                        <th>
+                                            <button
+                                                onClick={() => handleDelete(expense)}
+                                                className="btn btn-danger btn-sm"
+                                            >
+                                                DELETE
+                                            </button>
+                                        </th>
+                                    </tr>
+                                )
+                            })
+                            :
+                            expenses.map(expense => {
+                                if (expense.category === filter) {
+                                    return (
+                                        <tr key={expense.id}>
+                                            <th>{expense.id}</th>
+                                            <th>{expense.description}</th>
+                                            <th>${expense.amount}</th>
+                                            <th>{expense.category}</th>
+                                            <th>
+                                                <button
+                                                    onClick={() => handleDelete(expense)}
+                                                    className="btn btn-danger btn-sm"
+                                                >
+                                                    DELETE
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    )
+                                }
+                            })
+                        }
                     </>
-
                 </tbody>
             </table>
         </>
@@ -130,3 +163,4 @@ const Form = () => {
 }
 
 export default Form
+
